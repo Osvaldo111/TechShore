@@ -1,0 +1,24 @@
+/* This is the style of the form wrapping the 
+   search bar */
+.form-container {
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 59px;
+  width: 100%;
+}
+
+/* The style of the search bar */
+.search-box {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #dddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url("../images/search-icon.svg");
+  background-size: 25px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+}

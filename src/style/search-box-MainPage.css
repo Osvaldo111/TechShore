@@ -1,0 +1,16 @@
+/* The style of the section containing the
+  search box and the check boxes filter by country */
+.search-container {
+  position: relative;
+  top: 15%;
+  width: 35%;
+  margin: 0 auto;
+}
+
+.filter-country {
+  color: white;
+}
+
+.filter-country label {
+  margin-right: 20px;
+}
