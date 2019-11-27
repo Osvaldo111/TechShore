@@ -11,3 +11,10 @@
   text-decoration: none;
   color: black;
 }
+
+/*The style for the laptop devices fewer than 1200px*/
+@media (max-width: 1200px) {
+  .card-space {
+    width: 80%;
+  }
+}

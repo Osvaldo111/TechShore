@@ -1,18 +1,18 @@
 import React from "react";
-import "../style/search-box.css";
+import "../style/nav-bar-search-box.css";
 
 /**
  * @author Osvaldo Carrillo
  * Date: 11/21/19.
  * This class contains the component "Search Box".
  */
-export default class SearchBox extends React.Component {
+export default class NavBarSearchBox extends React.Component {
   render() {
     return (
-      <div className="form-container">
-        <form action="" className="input-container">
+      <div className="form-container-navBar">
+        <form action="">
           <input
-            className="search-box"
+            className="search-box-navBar"
             type="text"
             placeholder="Search something"
           />

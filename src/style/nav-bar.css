@@ -1,0 +1,32 @@
+/*The styel for the nabvigation bar*/
+.navigation-bar {
+  display: flex;
+  height: 10vh;
+  position: fixed;
+  width: 100%;
+  background-image: url(../images/background-navBar.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.navbar-search-box {
+  margin-top: 8px;
+  height: 20px;
+  width: 25%;
+  /* position: absolute; */
+  left: 20px;
+}
+
+.navbar-logo {
+  height: 80px;
+  width: 120px;
+  margin: 0 10px;
+}
+
+/*The style for the laptop devices fewer than 992px*/
+@media (max-width: 992px) {
+  .navigation-bar {
+    display: none;
+  }
+}

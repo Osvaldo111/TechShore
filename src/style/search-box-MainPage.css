@@ -14,3 +14,17 @@
 .filter-country label {
   margin-right: 20px;
 }
+
+/*The style for the laptop devices fewer than 1200px*/
+@media (max-width: 1200px) {
+  .search-container {
+    width: 55%;
+  }
+}
+
+/*The style for the laptop devices fewer than 992px*/
+@media (max-width: 992px) {
+  .search-container {
+    width: 80%;
+  }
+}

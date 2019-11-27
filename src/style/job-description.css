@@ -1,0 +1,54 @@
+.job-desc-container {
+  padding-top: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.job-desc-generals {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Style of the button on the top section */
+.button-desc-page {
+  font-family: inherit;
+  background-color: #6495ed;
+  border: none;
+  color: white;
+  padding: 10px 100px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 59px;
+}
+
+/* .job-desc-gral-first {
+  margin-left: 30px;
+} */
+
+.job-desc-gral-apply {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100px;
+}
+
+.job-desc-centerWrapper {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.jobDesc-extraInfo {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.jobDesc-container-extraInfo {
+}

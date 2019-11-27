@@ -1,0 +1,51 @@
+.navbar-mobile-container {
+  display: none;
+  flex-direction: column;
+  background-color: #0f52ba;
+  width: 100%;
+  position: fixed;
+}
+
+.navbar-mobile-logoSection {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.navbar-logo-mobile {
+  height: 60px;
+  width: 120px;
+}
+
+.navbar-mobile-button {
+  border: none;
+  height: 60px;
+  width: 60px;
+  background: url(../images/hamburguer-white-icon.svg) no-repeat;
+  background-size: 60px 60px;
+}
+
+.navbar-mobile-searchContainer {
+  width: 100%;
+  background-color: #99badd;
+}
+
+.navbar-mobile-searchContainer:hover {
+  background-color: #6495ed;
+}
+
+.navbar-mobile-searchContainer div {
+  width: 80%;
+  margin: 10px 0px 10px 5px;
+}
+
+.navbar-mobile-postJob {
+  width: 100%;
+  background-color: #99badd;
+}
+/*The style for the laptop devices fewer than 992px*/
+@media (max-width: 992px) {
+  .navbar-mobile-container {
+    display: flex;
+  }
+}

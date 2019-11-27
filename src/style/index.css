@@ -22,3 +22,15 @@ h3 {
 p {
   font-weight: 400;
 }
+
+@media (max-width: 1200px) {
+  body {
+    /* background-color: red; */
+  }
+}
+
+@media (max-width: 992px) {
+  body {
+    /* background-color: red; */
+  }
+}

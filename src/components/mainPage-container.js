@@ -2,6 +2,9 @@ import React from "react";
 import "../style/main-container.css";
 import SearchBoxContainer from "./search-box-MainPage";
 import JobsContaier from "./job-container";
+import NavigationBar from "./nav-bar";
+import { Link } from "react-router-dom";
+import NavBarMobile from "./nav-bar-mobile";
 
 /**
  * @author Osvaldo Carrillo.
@@ -12,74 +15,44 @@ import JobsContaier from "./job-container";
 export default class MainContainer extends React.Component {
   constructor(props) {
     super(props);
-    //this.osvaldoEle = React.createRef();
     this.state = {
-      bgColor: "",
       display: ""
     };
-    this.myRef = React.createRef();
   }
 
-  displayDOM = () => {
-    // const node = this.osvaldoEle.current;
-    // console.log(node);
-    // node.style.color = "blue";
-    // node.style.backgroundColor = "red";
-    this.setState({ bgColor: "red" });
-    this.setState({ display: "inline" });
-  };
-
   componentDidMount() {
-    window.addEventListener("scroll", this.handleMyFunction);
+    window.addEventListener("scroll", this.displayNavBar);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleMyFunction);
+    window.removeEventListener("scroll", this.displayNavBar);
   }
 
-  handleMyFunction = () => {
-    var y = window.scrollY;
-    var h = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight || 0
-    );
+  displayNavBar = () => {
+    var yAxisWindow = window.scrollY;
+    var topMainImage = Math.round(document.documentElement.clientHeight * 0.55);
 
-    var backImage = Math.round(document.documentElement.clientHeight * 0.55);
-
-    // console.log("This is the srolling in Pixels: ", h);
-    console.log("This is my image value ", backImage);
-    console.log("My scroll Y ", y);
-    //console.log(node);
-
-    if (y >= backImage - 40) {
-      this.setState({ display: "inline" });
-      //alert();
+    if (yAxisWindow >= topMainImage) {
+      this.setState({ display: "flex" });
     }
 
-    if (y <= backImage - 40) {
+    if (yAxisWindow <= topMainImage) {
       this.setState({ display: "none" });
     }
   };
-
   render() {
     return (
       <div className="container-mainPage">
         <div className="top-mainPage">
-          <button className="button-main-page">Post Job</button>
+          <Link to="/postJob">
+            <button className="button-main-page">Post Job</button>
+          </Link>
           <SearchBoxContainer />
         </div>
-        <div
-          className="container-example"
-          style={{ display: this.state.display }}
-        ></div>
-        <button
-          className="button-example-2"
-          style={{ backgroundColor: this.state.bgColor }}
-          onClick={this.displayDOM}
-          id="erase-me"
-        >
-          Erase Me
-        </button>
+        <div className="display-nav" style={{ display: this.state.display }}>
+          <NavigationBar />
+          <NavBarMobile />
+        </div>
         <div>
           <JobsContaier />
         </div>
