@@ -16,14 +16,22 @@ export default class SearchBoxContainer extends React.Component {
         <div className="filter-country">
           <h1>Filter By Country</h1>
           <div className="filter-country-container">
-            <input type="checkbox" id="checkBoxUS" name="US" value="US" />
-            <label htmlFor="US">United States</label>
-            <input type="checkbox" id="checkBoxCND" name="CND" value="CND" />
-            <label htmlFor="CND">Canada</label>
-            <input type="checkbox" id="checkBoxUK" name="UK" value="UK" />
-            <label htmlFor="UK">United Kingdom</label>
-            <input type="checkbox" id="checkBoxWW" name="WW" value="WW" />
-            <label htmlFor="WW">Worldwide</label>
+            <div>
+              <input type="checkbox" id="checkBoxUS" name="US" value="US" />
+              <label htmlFor="US">United States</label>
+            </div>
+            <div>
+              <input type="checkbox" id="checkBoxCND" name="CND" value="CND" />
+              <label htmlFor="CND">Canada</label>
+            </div>
+            <div>
+              <input type="checkbox" id="checkBoxUK" name="UK" value="UK" />
+              <label htmlFor="UK">United Kingdom</label>
+            </div>
+            <div>
+              <input type="checkbox" id="checkBoxWW" name="WW" value="WW" />
+              <label htmlFor="WW">Worldwide</label>
+            </div>
           </div>
         </div>
       </div>

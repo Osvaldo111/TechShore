@@ -28,22 +28,47 @@
 .navbar-mobile-searchContainer {
   width: 100%;
   background-color: #99badd;
+  padding: 10px 0 10px 10px;
+}
+
+.navbar-mobile-searchContainer div {
+  width: 80%;
+  /* margin: 10px 0px 10px 5px; */
 }
 
 .navbar-mobile-searchContainer:hover {
   background-color: #6495ed;
 }
 
-.navbar-mobile-searchContainer div {
-  width: 80%;
-  margin: 10px 0px 10px 5px;
-}
-
-.navbar-mobile-postJob {
+.navbar-mobile-btn-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
   width: 100%;
+  height: 60px;
   background-color: #99badd;
 }
-/*The style for the laptop devices fewer than 992px*/
+
+.navbar-mobile-btn-wrapper a {
+  text-decoration: none;
+  color: black;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.navbar-mobile-btn-wrapper:hover {
+  background-color: #6495ed;
+}
+
+/*The style for tablet devices 992px and up*/
+@media (min-width: 768px) {
+  .navbar-mobile-searchContainer div {
+    width: 95%;
+  }
+}
+
+/*The style for the laptop devices 992px and less*/
 @media (max-width: 992px) {
   .navbar-mobile-container {
     display: flex;

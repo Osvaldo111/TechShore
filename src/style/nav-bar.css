@@ -24,7 +24,7 @@
   margin: 0 10px;
 }
 
-/*The style for the laptop devices fewer than 992px*/
+/*The style for laptop devices 992px ann less*/
 @media (max-width: 992px) {
   .navigation-bar {
     display: none;

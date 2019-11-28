@@ -11,10 +11,30 @@
   text-decoration: none;
   color: black;
 }
+/* Ultra small devices Example: Custom, iPhone Retina */
+@media (min-width: 320px) {
+  /* .search-container {
+    width: 90%;
+  } */
+}
 
-/*The style for the laptop devices fewer than 1200px*/
-@media (max-width: 1200px) {
+/* Small devices less than 576px */
+@media (max-width: 576px) {
   .card-space {
     width: 80%;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .card-space {
+    width: 80%;
+  }
+}
+
+/*The style for the laptop devices up to 1200px*/
+@media (min-width: 1200px) {
+  .card-space {
+    width: 70%;
   }
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import "../style/nav-bar-mobile.css";
 import logo from "../images/logo.svg";
-import hamLogo from "../images/hamburguer-white-icon.svg";
 import NavBarSearchBox from "./nav-bar-search-box";
+import { Link } from "react-router-dom";
 
 /**
  * @author Osvaldo Carrillo
@@ -11,31 +11,56 @@ import NavBarSearchBox from "./nav-bar-search-box";
  * navigation bar for mobile and tablet
  */
 export default class NavBarMobile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: "none"
+    };
+  }
+
+  displayMobileNavBar = () => {
+    if (this.state.display == "none") {
+      this.setState({ display: "inline" });
+    } else {
+      this.setState({ display: "none" });
+    }
+  };
   render() {
     return (
       <div className="navbar-mobile-container">
-        <div className="navbar-mobile-logoSection">
+        <div
+          className="navbar-mobile-logoSection"
+          style={{ display: this.props.hideBar }}
+        >
           <div>
-            <img className="navbar-logo-mobile" src={logo}></img>
+            <Link to="/">
+              <img className="navbar-logo-mobile" src={logo}></img>
+            </Link>
           </div>
           <div>
-            <button className="navbar-mobile-button"></button>
+            <button
+              className="navbar-mobile-button"
+              onClick={this.displayMobileNavBar}
+            ></button>
           </div>
         </div>
-        <div className="navbar-mobile-searchContainer">
-          <div>
-            <NavBarSearchBox />
+        <div style={{ display: this.state.display }}>
+          <div className="navbar-mobile-searchContainer">
+            <div>
+              <NavBarSearchBox />
+            </div>
+          </div>
+          <div className="navbar-mobile-btn-wrapper">
+            <Link to="postJob">
+              <a>Post Job</a>
+            </Link>
+          </div>
+          <div className="navbar-mobile-btn-wrapper">
+            <Link to="/">
+              <a>Home</a>
+            </Link>
           </div>
         </div>
-        <div className="navbar-mobile-postJob">
-          <a
-            href="/postJob"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            Post Job
-          </a>
-        </div>
-        <div>HOME</div>
       </div>
     );
   }

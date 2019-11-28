@@ -13,7 +13,10 @@ import logo from "../images/logo.svg";
 export default class NavigationBar extends React.Component {
   render() {
     return (
-      <div className="navigation-bar">
+      <div
+        className="navigation-bar"
+        style={{ display: this.props.hideNavBar }}
+      >
         <Link to="/">
           <img className="navbar-logo" src={logo}></img>
         </Link>

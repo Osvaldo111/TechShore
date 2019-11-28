@@ -10,13 +10,15 @@ import NavBarMobile from "./nav-bar-mobile";
  * @author Osvaldo Carrillo.
  * Date: 11/21/2019.
  * This class is responsible of displaying all the elements
- * for the main page of the site.
+ * for the main page of the site. This class handles the funcionality
+ * to hide the navigation bars both in desktop and mobile.
  */
 export default class MainContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: ""
+      display: "inline",
+      hideBarInTopPage: "none"
     };
   }
 
@@ -33,7 +35,7 @@ export default class MainContainer extends React.Component {
     var topMainImage = Math.round(document.documentElement.clientHeight * 0.55);
 
     if (yAxisWindow >= topMainImage) {
-      this.setState({ display: "flex" });
+      this.setState({ display: "flex", hideBarInTopPage: "flex" });
     }
 
     if (yAxisWindow <= topMainImage) {
@@ -50,8 +52,8 @@ export default class MainContainer extends React.Component {
           <SearchBoxContainer />
         </div>
         <div className="display-nav" style={{ display: this.state.display }}>
-          <NavigationBar />
-          <NavBarMobile />
+          <NavigationBar hideNavBar={this.state.hideBarInTopPage} />
+          <NavBarMobile hideBar={this.state.hideBarInTopPage} />
         </div>
         <div>
           <JobsContaier />

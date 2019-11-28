@@ -36,8 +36,8 @@
   display: none;
 }
 
-/*The style for the laptop devices fewer than 992px*/
-@media (max-width: 992px) {
+/*The style for laptop devices and 992px*/
+@media (min-width: 992px) {
   .button-main-page {
     padding: 5px 30px;
   }

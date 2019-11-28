@@ -50,5 +50,44 @@
   width: 50%;
 }
 
-.jobDesc-container-extraInfo {
+.job-desc-content {
+  display: flex;
+  flex-direction: column;
+}
+/* Ultra small devices Example: Custom, iPhone Retina */
+@media (max-width: 320px) {
+  /* .search-container {
+    width: 90%;
+  } */
+  .job-desc-generals {
+    font-size: 12px;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  .job-desc-gral-apply {
+    width: 100%;
+  }
+}
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .job-desc-container {
+    margin: 0;
+  }
+  .job-desc-generals {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .job-desc-content {
+    align-items: center;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .job-desc-gral-apply {
+    margin-right: 50px;
+  }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import NavigationBar from "./nav-bar";
 import "../style/job-description.css";
 import JobDescExtraInfo from "./job-desc-extraInfo";
+import NavBarMobile from "./nav-bar-mobile";
 
 const seed =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc accumsan diam non tincidunt egestas. Nam ipsum massa, hendrerit in sollicitudin a, sagittis sit amet ante. Fusce in consectetur odio. Aenean non lobortis justo, ut iaculis nulla. Proin dignissim neque in porttitor congue. Maecenas ut ligula ultrices massa facilisis sagittis quis sit amet arcu. In at iaculis nulla. Morbi vitae velit tincidunt, vulputate dolor eu, cursus elit. Phasellus eget nisl leo. Nunc in ullamcorper lectus. Duis vel dignissim nibh. Nulla facilisi. Vestibulum dolor ante, tristique quis velit id, malesuada eleifend eros. Quisque dignissim sollicitudin dictum. Integer interdum erat eget elit pellentesque scelerisque. Morbi nec orci tortor.";
@@ -11,6 +12,7 @@ export default class JobDescription extends React.Component {
       <div>
         <div>
           <NavigationBar />
+          <NavBarMobile />
         </div>
         <div className="job-desc-container">
           <div className="job-desc-generals">
@@ -29,7 +31,7 @@ export default class JobDescription extends React.Component {
               </div>
             </div>
           </div>
-          <div>
+          <div className="job-desc-content">
             <JobDescExtraInfo title="Location" content={seed} />
             <JobDescExtraInfo title="Job Description" content={seed} />
           </div>

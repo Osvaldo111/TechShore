@@ -1,12 +1,14 @@
 import React from "react";
 import "../style/form-post-job.css";
 import NavigationBar from "./nav-bar";
+import NavBarMobile from "./nav-bar-mobile";
 
 export default class PostJobForm extends React.Component {
   render() {
     return (
       <div>
         <NavigationBar />
+        <NavBarMobile />
         <div className="post-job-form-container">
           <form action="/action_page.php" className="post-job-form">
             <h1 style={{ textAlign: "center" }}>Post a Job</h1>

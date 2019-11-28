@@ -22,3 +22,10 @@
   background-repeat: no-repeat;
   padding: 6px 10px 6px 40px;
 }
+
+/*The style for desktop devices 1200px and up*/
+@media (min-width: 1200px) {
+  .search-box-navBar {
+    background-position-x: 1%;
+  }
+}
