@@ -14,11 +14,11 @@ export default class JobCard extends React.Component {
         <div className="job-card">
           <div className="job-card-information">
             <div className="job-card-sameLineInfo">
-              <h2>Software Engineering</h2>
-              <p style={{ margin: "auto 0" }}>2 Days ago</p>
+              <h2>{this.props.job_position}</h2>
+              <p style={{ margin: "auto 0" }}>{this.props.date_posted}</p>
             </div>
-            <h3>Company Name</h3>
-            <p>Part Time</p>
+            <h3>{this.props.company_name}</h3>
+            <p>{this.props.job_hours}</p>
           </div>
         </div>
       </div>

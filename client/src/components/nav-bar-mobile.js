@@ -19,7 +19,7 @@ export default class NavBarMobile extends React.Component {
   }
 
   displayMobileNavBar = () => {
-    if (this.state.display == "none") {
+    if (this.state.display === "none") {
       this.setState({ display: "inline" });
     } else {
       this.setState({ display: "none" });
@@ -34,7 +34,11 @@ export default class NavBarMobile extends React.Component {
         >
           <div>
             <Link to="/">
-              <img className="navbar-logo-mobile" src={logo}></img>
+              <img
+                className="navbar-logo-mobile"
+                src={logo}
+                alt="nav-bar-mobile-logo"
+              ></img>
             </Link>
           </div>
           <div>

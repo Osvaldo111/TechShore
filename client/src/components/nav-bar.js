@@ -18,7 +18,7 @@ export default class NavigationBar extends React.Component {
         style={{ display: this.props.hideNavBar }}
       >
         <Link to="/">
-          <img className="navbar-logo" src={logo}></img>
+          <img className="navbar-logo" src={logo} alt="navbar-logo"></img>
         </Link>
         <div className="navbar-search-box">
           <NavBarSearchBox />

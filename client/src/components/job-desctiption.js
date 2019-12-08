@@ -12,6 +12,31 @@ import NavBarMobile from "./nav-bar-mobile";
 const seed =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc accumsan diam non tincidunt egestas. Nam ipsum massa, hendrerit in sollicitudin a, sagittis sit amet ante. Fusce in consectetur odio. Aenean non lobortis justo, ut iaculis nulla. Proin dignissim neque in porttitor congue. Maecenas ut ligula ultrices massa facilisis sagittis quis sit amet arcu. In at iaculis nulla. Morbi vitae velit tincidunt, vulputate dolor eu, cursus elit. Phasellus eget nisl leo. Nunc in ullamcorper lectus. Duis vel dignissim nibh. Nulla facilisi. Vestibulum dolor ante, tristique quis velit id, malesuada eleifend eros. Quisque dignissim sollicitudin dictum. Integer interdum erat eget elit pellentesque scelerisque. Morbi nec orci tortor.";
 export default class JobDescription extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    // console.log("Prop location", this.props.location.search);
+    const job_id = this.props.match.params.id;
+    console.log("Prop match", job_id);
+
+    this.sendDatetoAPI(job_id);
+  }
+
+  sendDatetoAPI(job_id) {
+    fetch("/api", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({ example: job_id })
+    })
+      .then(result => result.json())
+      .then(info => {
+        console.log(info);
+      });
+  }
   render() {
     return (
       <div>
