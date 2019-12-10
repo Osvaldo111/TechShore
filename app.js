@@ -2,8 +2,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var app = express();
-var DBJobDesc = require("./server/DB/jobDesc.js");
-// var sql = require("./index.js");
+var DBMethods = require("./server/DB/jobDesc.js");
 
 // // Parse URL-encoded bodies (as sent by HTML forms)
 // app.use(express.urlencoded());
@@ -14,19 +13,9 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); //for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "client/build")));
 
-app.get("/api/getJobDescription", DBJobDesc);
+app.get("/api/getJobs", DBMethods.getJobs);
 
-app.post("/api", function(req, res) {
-  // var job_id = req.body.example;
-  // sql.query("SELECT 'id' FROM `jobs` WHERE 'id' = ?", [job_id], function(
-  //   error,
-  //   results
-  // ) {
-  //   if (error) throw error;
-  //   res.json(results);
-  // });
-  console.log(req.body.example);
-});
+app.post("/api/getJobDescription", DBMethods.getJobDesc);
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

@@ -3,6 +3,8 @@ import NavigationBar from "./nav-bar";
 import "../style/job-description.css";
 import JobDescExtraInfo from "./job-desc-extraInfo";
 import NavBarMobile from "./nav-bar-mobile";
+import { Link } from "react-router-dom";
+
 /**
  * @author Osvaldo Carrillo
  * Date: 11/27/2019
@@ -14,18 +16,22 @@ const seed =
 export default class JobDescription extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      jodDescription: "",
+      loading: true
+    };
   }
 
   componentDidMount() {
-    // console.log("Prop location", this.props.location.search);
-    const job_id = this.props.match.params.id;
-    console.log("Prop match", job_id);
+    const job_search = this.props.location.search;
 
+    // Get the Job Id
+    const job_id = job_search.replace("?job_search=", "");
     this.sendDatetoAPI(job_id);
   }
 
   sendDatetoAPI(job_id) {
-    fetch("/api", {
+    fetch("/api/getJobDescription", {
       method: "POST",
       headers: {
         "Content-type": "application/json"
@@ -34,38 +40,61 @@ export default class JobDescription extends React.Component {
     })
       .then(result => result.json())
       .then(info => {
+        if (info.length <= 0) {
+          console.log("No Exists", info, job_id);
+          this.props.history.push("/NotFound");
+        }
+
+        this.setState({ loading: false, jobDescription: info });
         console.log(info);
       });
   }
   render() {
+    const jobDescription = this.state.jobDescription;
+
+    if (this.state.loading) {
+      return "Loading...";
+    }
     return (
       <div>
         <div>
           <NavigationBar />
           <NavBarMobile />
         </div>
-        <div className="job-desc-container">
-          <div className="job-desc-generals">
-            <div className="job-desc-gral-first">
-              <h1>Software Enginnering</h1>
-              <h2>Clement LLC</h2>
-              <h3>14 November 2019</h3>
-              <h3>Part-Time</h3>
-            </div>
-            <div className="job-desc-gral-apply">
-              <div className="job-desc-centerWrapper">
-                <h2>Apply Here</h2>
+        {jobDescription.map(item => {
+          return (
+            <div className="job-desc-container" key={item.id}>
+              <div className="job-desc-generals">
+                <div className="job-desc-gral-first">
+                  <h1>{item.job_position}</h1>
+                  <h2>{item.company_name}</h2>
+                  <h3>{item.date_posted}</h3>
+                  <h3>{item.job_hours}</h3>
+                </div>
+                <div className="job-desc-gral-apply">
+                  <div className="job-desc-centerWrapper">
+                    <h2>Apply Here</h2>
+                  </div>
+                  <div className="job-desc-centerWrapper">
+                    <a className="button-desc-page" href={item.job_link}>
+                      Apply
+                    </a>
+                  </div>
+                </div>
               </div>
-              <div className="job-desc-centerWrapper">
-                <button className="button-desc-page">Apply</button>
+              <div className="job-desc-content">
+                <JobDescExtraInfo
+                  title="Location"
+                  content={item.job_location}
+                />
+                <JobDescExtraInfo
+                  title="Job Description"
+                  content={item.job_description}
+                />
               </div>
             </div>
-          </div>
-          <div className="job-desc-content">
-            <JobDescExtraInfo title="Location" content={seed} />
-            <JobDescExtraInfo title="Job Description" content={seed} />
-          </div>
-        </div>
+          );
+        })}
       </div>
     );
   }

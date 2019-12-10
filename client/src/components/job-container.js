@@ -22,7 +22,7 @@ export default class JobsContaier extends React.Component {
   }
 
   getJobDescription = () => {
-    fetch("/api/getJobDescription")
+    fetch("/api/getJobs")
       .then(res => res.json())
       .then(listDescription => {
         var jobDescription = [];
@@ -33,7 +33,7 @@ export default class JobsContaier extends React.Component {
       });
   };
   render() {
-    const { list } = this.state;
+    const list = this.state.list;
 
     return (
       <div className="card-space">
@@ -42,7 +42,7 @@ export default class JobsContaier extends React.Component {
             <Link
               to={{
                 pathname: "/description/" + item.id,
-                search: "?job_description=" + item.id,
+                search: "?job_search=" + item.id,
                 state: { list: list[item.id - 1] }
               }}
               className="card-remove-decoration"

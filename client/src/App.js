@@ -20,7 +20,8 @@ function App() {
         <Route exact path="/" component={MainContainer} />
         <Route path="/description/:id" component={JobDescription} />
         <Route path="/postJob" component={PostJobForm} />
-        <Route component={NoMatch} />
+        <Route path="*" component={NoMatch} />
+        <Route path="/NotFound" component={NoMatch} />
       </Switch>
     </Router>
   );
