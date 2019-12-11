@@ -1,7 +1,7 @@
 import React from "react";
 import "../style/nav-bar-mobile.css";
 import logo from "../images/logo.svg";
-import NavBarSearchBox from "./nav-bar-search-box";
+// import NavBarSearchBox from "./nav-bar-search-box";
 import { Link } from "react-router-dom";
 
 /**
@@ -50,9 +50,7 @@ export default class NavBarMobile extends React.Component {
         </div>
         <div style={{ display: this.state.display }}>
           <div className="navbar-mobile-searchContainer">
-            <div>
-              <NavBarSearchBox />
-            </div>
+            <div>{/* <NavBarSearchBox /> */}</div>
           </div>
           <div className="navbar-mobile-btn-wrapper">
             <Link to="postJob">

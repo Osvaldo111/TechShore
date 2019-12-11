@@ -30,12 +30,19 @@ export default class MainContainer extends React.Component {
     window.removeEventListener("scroll", this.displayNavBar);
   }
 
+  someFunctionData = param => {
+    console.log("Some data", param);
+  };
+
   displayNavBar = () => {
     var yAxisWindow = window.scrollY;
     var topMainImage = Math.round(document.documentElement.clientHeight * 0.55);
 
     if (yAxisWindow >= topMainImage) {
-      this.setState({ display: "flex", hideBarInTopPage: "flex" });
+      this.setState({
+        display: "flex",
+        hideBarInTopPage: "flex"
+      });
     }
 
     if (yAxisWindow <= topMainImage) {
@@ -49,7 +56,7 @@ export default class MainContainer extends React.Component {
           <Link to="/postJob">
             <button className="button-main-page">Post Job</button>
           </Link>
-          <SearchBoxContainer />
+          <SearchBoxContainer someFunctionData={this.someFunctionData} />
         </div>
         <div className="display-nav" style={{ display: this.state.display }}>
           <NavigationBar hideNavBar={this.state.hideBarInTopPage} />

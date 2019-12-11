@@ -1,6 +1,6 @@
 import React from "react";
 import "../style/nav-bar.css";
-import NavBarSearchBox from "./nav-bar-search-box";
+// import NavBarSearchBox from "./nav-bar-search-box";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 /**
@@ -20,9 +20,7 @@ export default class NavigationBar extends React.Component {
         <Link to="/">
           <img className="navbar-logo" src={logo} alt="navbar-logo"></img>
         </Link>
-        <div className="navbar-search-box">
-          <NavBarSearchBox />
-        </div>
+        <div className="navbar-search-box">{/* <NavBarSearchBox /> */}</div>
         <Link to="/postJob">
           <button className="button-main-page">Post Job</button>
         </Link>
