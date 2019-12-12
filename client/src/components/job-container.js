@@ -18,12 +18,28 @@ export default class JobsContaier extends React.Component {
   }
 
   componentDidMount() {
-    this.getJobDescription();
+    this.getJobDescription("");
+    console.log("JUST ONE TIME");
   }
 
-  getJobDescription = () => {
-    fetch("/api/getJobs")
-      .then(res => res.json())
+  componentDidUpdate(previousProps, previouState) {
+    if (previousProps.searchBoxData !== this.props.searchBoxData) {
+      console.log("Previous Data: ", previousProps.searchBoxData);
+      console.log(this.props.searchBoxData);
+      this.getJobDescription(this.props.searchBoxData);
+      console.log("Change update");
+    }
+  }
+
+  getJobDescription = param => {
+    fetch("/api/getJobs", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({ keyword: param })
+    })
+      .then(result => result.json())
       .then(listDescription => {
         var jobDescription = [];
         for (let index = 0; index < listDescription.length; index++) {
@@ -32,6 +48,17 @@ export default class JobsContaier extends React.Component {
         this.setState({ list: jobDescription });
       });
   };
+  // getJobDescription = param => {
+  //   fetch("/api/getJobs")
+  //     .then(res => res.json())
+  //     .then(listDescription => {
+  //       var jobDescription = [];
+  //       for (let index = 0; index < listDescription.length; index++) {
+  //         jobDescription.push(listDescription[index]);
+  //       }
+  //       this.setState({ list: jobDescription });
+  //     });
+  // };
   render() {
     const list = this.state.list;
 

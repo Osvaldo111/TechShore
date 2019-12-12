@@ -3,10 +3,16 @@ var sql = require("./index.js");
 module.exports = {
   /*Send data of all the jobs selected*/
   getJobs(req, res) {
-    sql.query("SELECT * FROM `jobs`", function(error, results) {
-      if (error) throw error;
-      res.json(results);
-    });
+    var searchJobKeyWord = "%" + req.body.keyword + "%";
+    console.log("Job keyword: ", searchJobKeyWord);
+    sql.query(
+      "SELECT * FROM `jobs` WHERE job_position LIKE ?",
+      [searchJobKeyWord],
+      function(error, results) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
   },
 
   /*Send the description of a specific job */

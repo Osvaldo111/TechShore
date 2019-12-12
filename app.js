@@ -8,7 +8,7 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); //for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "client/build")));
 
-app.get("/api/getJobs", DBMethods.getJobs);
+app.post("/api/getJobs", DBMethods.getJobs);
 
 app.post("/api/getJobDescription", DBMethods.getJobDesc);
 // match one above, send back React's index.html file.

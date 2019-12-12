@@ -17,14 +17,13 @@ export default class SearchBoxContainer extends React.Component {
     // this.someFunctionHere;
   }
 
-  someFunctionHere = param => {
-    this.props.someFunctionData(param);
-    console.log("Hello", param);
+  getSearchBoxData = param => {
+    this.props.getSearchBoxData(param);
   };
   render() {
     return (
       <div className="search-container">
-        <SearchBox someFunctionHere={this.someFunctionHere} />
+        <SearchBox getDataFunction={this.getSearchBoxData} />
         <div className="filter-country">
           <h1>Filter By Country</h1>
           <div className="filter-country-container">

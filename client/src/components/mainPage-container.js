@@ -18,7 +18,8 @@ export default class MainContainer extends React.Component {
     super(props);
     this.state = {
       display: "inline",
-      hideBarInTopPage: "none"
+      hideBarInTopPage: "none",
+      searchBoxData: ""
     };
   }
 
@@ -30,8 +31,9 @@ export default class MainContainer extends React.Component {
     window.removeEventListener("scroll", this.displayNavBar);
   }
 
-  someFunctionData = param => {
-    console.log("Some data", param);
+  getSearchBoxData = param => {
+    this.setState({ searchBoxData: param });
+    console.log("Main Page Parent", param);
   };
 
   displayNavBar = () => {
@@ -56,14 +58,14 @@ export default class MainContainer extends React.Component {
           <Link to="/postJob">
             <button className="button-main-page">Post Job</button>
           </Link>
-          <SearchBoxContainer someFunctionData={this.someFunctionData} />
+          <SearchBoxContainer getSearchBoxData={this.getSearchBoxData} />
         </div>
         <div className="display-nav" style={{ display: this.state.display }}>
           <NavigationBar hideNavBar={this.state.hideBarInTopPage} />
           <NavBarMobile hideBar={this.state.hideBarInTopPage} />
         </div>
         <div>
-          <JobsContaier />
+          <JobsContaier searchBoxData={this.state.searchBoxData} />
         </div>
       </div>
     );

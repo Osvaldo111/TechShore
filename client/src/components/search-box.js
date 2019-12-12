@@ -21,7 +21,7 @@ export default class SearchBox extends React.Component {
 
   handleSubmit = event => {
     alert("This one: " + this.state.jobEntered);
-    this.props.someFunctionHere(this.state.jobEntered);
+    this.props.getDataFunction(this.state.jobEntered);
     event.preventDefault();
   };
 
