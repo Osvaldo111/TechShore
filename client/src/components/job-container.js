@@ -41,10 +41,17 @@ export default class JobsContaier extends React.Component {
     })
       .then(result => result.json())
       .then(listDescription => {
+        console.log("The Data: ", listDescription);
         var jobDescription = [];
         for (let index = 0; index < listDescription.length; index++) {
-          jobDescription.push(listDescription[index]);
+          //console.log(listDescription[index].description[0]);
+          var doc = new DOMParser().parseFromString(
+            listDescription[index].description,
+            "text/html"
+          );
+          jobDescription.push(doc.body.textContent);
         }
+        console.log(jobDescription[2]);
         this.setState({ list: jobDescription });
       });
   };
@@ -65,7 +72,13 @@ export default class JobsContaier extends React.Component {
     return (
       <div className="card-space">
         {list.map(item => {
-          return (
+          {
+            return (
+              <div>
+                <h1>{item}</h1>
+              </div>
+            );
+            /* return (
             <Link
               to={{
                 pathname: "/description/" + item.id,
@@ -82,7 +95,8 @@ export default class JobsContaier extends React.Component {
                 job_hours={item.job_hours ? item.job_hours : "Full-Time"}
               />
             </Link>
-          );
+          ); */
+          }
         })}
       </div>
     );
