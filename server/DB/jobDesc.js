@@ -1,31 +1,20 @@
 var sql = require("./index.js");
 var request = require("request");
 var parseString = require("xml2js").parseString;
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 module.exports = {
   /*Send data of all the jobs selected*/
   getJobs(req, res) {
-    var link =
-      "https://stackoverflow.com/jobs/feed?l=Mexico+City%2c+CDMX%2c+Mexico&u=Km&d=5";
-    request(link, function(error, response, body) {
-      console.log("error:", error); // Print the error if one occurred
-      console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
-      // console.log("body:", body); // Print the HTML for the Google homepage.
-      parseString(body, function(err, result) {
-        console.dir(result.rss.channel[0].item);
-        res.json(result.rss.channel[0].item);
-      });
-      // res.json(body);
-    });
-
+    /*********************** */
     var searchJobKeyWord = "%" + req.body.keyword + "%";
-    console.log("Job keyword: ", searchJobKeyWord);
     sql.query(
-      "SELECT * FROM `jobs` WHERE job_position LIKE ?",
+      "SELECT * FROM `stackODaily` WHERE job_position LIKE ?",
       [searchJobKeyWord],
       function(error, results) {
         if (error) throw error;
-        // res.json(results);
+        res.json(results);
       }
     );
   },
@@ -33,14 +22,75 @@ module.exports = {
   /*Send the description of a specific job */
   getJobDesc(req, res) {
     var job_id = req.body.example;
-    console.log(job_id);
-    sql.query("SELECT * FROM jobs WHERE id = ?", [job_id], function(
+    sql.query("SELECT * FROM stackoDaily WHERE id = ?", [job_id], function(
       error,
       results
     ) {
       if (error) throw error;
       res.json(results);
       console.log("This is the results: ", results);
+    });
+  },
+
+  storejobsDB(req, res) {
+    var link = "https://stackoverflow.com/jobs/feed?r=true";
+    request(link, function(error, response, body) {
+      console.log("error:", error); // Print the error if one occurred
+      console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+      parseString(body, function(err, result) {
+        var stackOverflowJobs = result.rss.channel[0].item;
+        var jobsToStoreDB = [];
+
+        for (let index = 0; index < stackOverflowJobs.length; index++) {
+          // Remove all the entities and HTML tags from the de
+          const copyofDescrStackOv = new JSDOM(
+            stackOverflowJobs[index].description
+          );
+          stackOverflowJobs[
+            index
+          ].description = copyofDescrStackOv.window.document.querySelector(
+            "body"
+          ).textContent;
+
+          // Parse the Date according to the DB Format.
+          var mydate = new Date(stackOverflowJobs[index].pubDate);
+          var newDate =
+            mydate.getFullYear() +
+            "-" +
+            (mydate.getMonth() + 1) +
+            "-" +
+            mydate.getDate();
+
+          // Remove the extra text "()" and "(allows remote)"
+          var job_position = stackOverflowJobs[index].title
+            .toString()
+            .replace("()", "")
+            .replace("(allows remote)", "");
+
+          var jobs = {
+            id: 0,
+            job_position: job_position,
+            company_name: stackOverflowJobs[index]["a10:author"][0]["a10:name"],
+            date_posted: newDate,
+            job_hours: "Full-Time",
+            job_location: "Remote",
+            job_description: stackOverflowJobs[index].description,
+            job_link: stackOverflowJobs[index].link
+          };
+
+          sql.query("INSERT INTO stackODaily SET ?", jobs, function(
+            error,
+            results
+          ) {
+            if (error) throw error;
+
+            // console.log("This is the results: ", results);
+          });
+          jobsToStoreDB.push(stackOverflowJobs[index].link);
+        }
+
+        res.json(jobsToStoreDB /*[0].description*/);
+      });
     });
   }
 };

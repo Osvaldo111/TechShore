@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var app = express();
 var DBMethods = require("./server/DB/jobDesc.js");
+var request = require("request");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); //for parsing application/x-www-form-urlencoded
@@ -11,6 +12,9 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.post("/api/getJobs", DBMethods.getJobs);
 
 app.post("/api/getJobDescription", DBMethods.getJobDesc);
+
+app.get("/api/storeJobs", DBMethods.storejobsDB);
+
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

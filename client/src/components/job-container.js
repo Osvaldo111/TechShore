@@ -44,14 +44,9 @@ export default class JobsContaier extends React.Component {
         console.log("The Data: ", listDescription);
         var jobDescription = [];
         for (let index = 0; index < listDescription.length; index++) {
-          //console.log(listDescription[index].description[0]);
-          var doc = new DOMParser().parseFromString(
-            listDescription[index].description,
-            "text/html"
-          );
-          jobDescription.push(doc.body.textContent);
+          jobDescription.push(listDescription[index]);
         }
-        console.log(jobDescription[2]);
+        // console.log(listDescription);
         this.setState({ list: jobDescription });
       });
   };
@@ -74,28 +69,23 @@ export default class JobsContaier extends React.Component {
         {list.map(item => {
           {
             return (
-              <div>
-                <h1>{item}</h1>
-              </div>
+              <Link
+                to={{
+                  pathname: "/description/" + item.id,
+                  search: "?job_search=" + item.id,
+                  state: { list: list[item.id - 1] }
+                }}
+                className="card-remove-decoration"
+                key={item.id}
+              >
+                <JobCard
+                  job_position={item.job_position}
+                  date_posted={item.date_posted}
+                  company_name={item.company_name}
+                  job_hours={item.job_hours ? item.job_hours : "Full-Time"}
+                />
+              </Link>
             );
-            /* return (
-            <Link
-              to={{
-                pathname: "/description/" + item.id,
-                search: "?job_search=" + item.id,
-                state: { list: list[item.id - 1] }
-              }}
-              className="card-remove-decoration"
-              key={item.id}
-            >
-              <JobCard
-                job_position={item.job_position}
-                date_posted={item.date_posted}
-                company_name={item.company_name}
-                job_hours={item.job_hours ? item.job_hours : "Full-Time"}
-              />
-            </Link>
-          ); */
           }
         })}
       </div>
