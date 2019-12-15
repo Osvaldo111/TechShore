@@ -7,7 +7,6 @@ const { JSDOM } = jsdom;
 module.exports = {
   /*Send data of all the jobs selected*/
   getJobs(req, res) {
-    /*********************** */
     var searchJobKeyWord = "%" + req.body.keyword + "%";
     sql.query(
       "SELECT * FROM `stackODaily` WHERE job_position LIKE ?",
@@ -92,5 +91,25 @@ module.exports = {
         res.json(jobsToStoreDB /*[0].description*/);
       });
     });
+  },
+
+  getCredentialsLogIn(req, res) {
+    var credentials = req.body.credentials;
+
+    sql.query(
+      "SELECT user FROM users WHERE user = ? AND user_password = ?",
+      [credentials.username, credentials.password],
+      function(error, results, fields) {
+        if (error) throw error;
+        if (results.length > 0) {
+          req.session.user = results[0].user;
+          console.log(results[0].user);
+          res.json(true);
+        } else {
+          res.json(false);
+          console.log("invalid Credentials");
+        }
+      }
+    );
   }
 };

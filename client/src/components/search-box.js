@@ -20,7 +20,7 @@ export default class SearchBox extends React.Component {
   };
 
   handleSubmit = event => {
-    alert("This one: " + this.state.jobEntered);
+    // Function to pass value to the Parent
     this.props.getDataFunction(this.state.jobEntered);
     event.preventDefault();
   };
