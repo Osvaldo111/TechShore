@@ -1,4 +1,3 @@
-var sql = require("./index.js");
 var request = require("request");
 var parseString = require("xml2js").parseString;
 const jsdom = require("jsdom");
@@ -6,9 +5,9 @@ const { JSDOM } = jsdom;
 
 module.exports = {
   /*Send data of all the jobs selected*/
-  getJobs(req, res) {
+  getJobs(req, res, sqlConnection) {
     var searchJobKeyWord = "%" + req.body.keyword + "%";
-    sql.query(
+    sqlConnection.query(
       "SELECT * FROM `stackODaily` WHERE job_position LIKE ?",
       [searchJobKeyWord],
       function(error, results) {
@@ -19,19 +18,20 @@ module.exports = {
   },
 
   /*Send the description of a specific job */
-  getJobDesc(req, res) {
+  getJobDesc(req, res, sqlConnection) {
     var job_id = req.body.example;
-    sql.query("SELECT * FROM stackoDaily WHERE id = ?", [job_id], function(
-      error,
-      results
-    ) {
-      if (error) throw error;
-      res.json(results);
-      console.log("This is the results: ", results);
-    });
+    sqlConnection.query(
+      "SELECT * FROM stackoDaily WHERE id = ?",
+      [job_id],
+      function(error, results) {
+        if (error) throw error;
+        res.json(results);
+        // console.log("This is the results: ", results);
+      }
+    );
   },
 
-  storejobsDB(req, res) {
+  storejobsDB(req, res, sqlConnection) {
     var link = "https://stackoverflow.com/jobs/feed?r=true";
     request(link, function(error, response, body) {
       console.log("error:", error); // Print the error if one occurred
@@ -77,7 +77,7 @@ module.exports = {
             job_link: stackOverflowJobs[index].link
           };
 
-          sql.query("INSERT INTO stackODaily SET ?", jobs, function(
+          sqlConnection.query("INSERT INTO stackODaily SET ?", jobs, function(
             error,
             results
           ) {
@@ -93,10 +93,10 @@ module.exports = {
     });
   },
 
-  getCredentialsLogIn(req, res) {
+  getCredentialsLogIn(req, res, sqlConnection) {
     var credentials = req.body.credentials;
 
-    sql.query(
+    sqlConnection.query(
       "SELECT user FROM users WHERE user = ? AND user_password = ?",
       [credentials.username, credentials.password],
       function(error, results, fields) {
