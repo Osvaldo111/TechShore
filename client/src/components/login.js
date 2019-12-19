@@ -14,8 +14,15 @@ export default class LoginAdministrador extends React.Component {
     this.state = {
       username: "",
       password: "",
-      isSigned: false
+      isSigned: null,
+      errorMessages: "",
+      loading: true
     };
+  }
+
+  componentDidMount() {
+    //Check the authorization for cookies
+    this.getAuthorization();
   }
 
   getUsernameCredentials = event => {
@@ -49,17 +56,29 @@ export default class LoginAdministrador extends React.Component {
     })
       .then(result => result.json())
       .then(result => {
-        if (result) {
-          this.setState({ isSigned: result });
-          this.props.history.push("/storeJobsDB", { state: true });
-        } else {
-          this.props.history.push("/login");
-        }
-
         console.log("The result: ", result);
+        this.setState({ isSigned: result });
+      });
+  };
+
+  getAuthorization = () => {
+    console.log("The authorization function");
+    fetch("/api/auth", {
+      method: "POST"
+    })
+      .then(result => result.json())
+      .then(result => {
+        console.log("The result: ", result);
+        this.setState({ isSigned: result, loading: false });
       });
   };
   render() {
+    if (this.state.loading) {
+      return "Loading...";
+    }
+    if (this.state.isSigned) {
+      return <Redirect to={"/"} />;
+    }
     return (
       <div>
         <div className="post-job-form-container">

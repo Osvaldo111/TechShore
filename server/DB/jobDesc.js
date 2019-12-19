@@ -93,8 +93,9 @@ module.exports = {
     });
   },
 
-  getCredentialsLogIn(req, res, sqlConnection) {
+  getCredentialsLogIn(req, res, sqlConnection, sessionStore) {
     var credentials = req.body.credentials;
+    // console.log("The session on Request: ", req);
 
     sqlConnection.query(
       "SELECT user FROM users WHERE user = ? AND user_password = ?",

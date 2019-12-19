@@ -10,8 +10,10 @@ var sessionStore = new MySQLStore(
   {} /* session store options */,
   sqlConnection
 );
+var middleware = require("./server/DB/Middleware/authorization.js");
+
 const SESSION_NAME = "sid";
-const COOKIE_LIFETIME = 1000 * 60; //20 Minutes
+const COOKIE_LIFETIME = 1000 * 60 * 60 * 2; //20 Minutes
 app.use(
   session({
     name: SESSION_NAME,
@@ -41,8 +43,6 @@ app.use(express.urlencoded({ extended: true })); //for parsing application/x-www
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.post("/api/getJobs", function(req, res) {
-  req.session.userId = 1;
-  console.log("The session element", req.session.userId);
   // req.session.destroy();
   // res.clearCookie(SESSION_NAME, { path: "/" });
   DBMethods.getJobs(req, res, sqlConnection);
@@ -56,9 +56,11 @@ app.get("/api/storeJobs", function(req, res) {
   DBMethods.storejobsDB(req, res, sqlConnection);
 });
 
-app.post("/api/login", function(req, res) {
-  DBMethods.getCredentialsLogIn(req, res, sqlConnection);
+app.post("/api/login", middleware.authorization, function(req, res) {
+  DBMethods.getCredentialsLogIn(req, res, sqlConnection, sessionStore);
 });
+
+app.post("/api/auth", middleware.singleAuthorization);
 
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {
