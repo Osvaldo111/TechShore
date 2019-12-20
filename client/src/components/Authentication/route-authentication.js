@@ -1,40 +1,38 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
+// A wrapper for <Route> that redirects to the login
+// screen if you're not yet authenticated.
 export default class PrivateRoute extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isSigned: null,
+      loading: true
+    };
   }
 
   componentDidMount() {
-    console.log(this.props);
+    this.authorization();
   }
+
+  authorization() {
+    fetch("/api/auth", {
+      method: "POST"
+    })
+      .then(result => result.json())
+      .then(result => {
+        this.setState({ isSigned: result, loading: false });
+      });
+  }
+
   render() {
-    return "Loading....";
+    const { component: Component } = this.props;
+    // return <Component {...this.props}/>;
+    if (this.state.loading) return null;
+
+    if (this.state.isSigned) return <Route {...this.props} />;
+
+    return <Redirect to="/" />;
   }
 }
-// // A wrapper for <Route> that redirects to the login
-// // screen if you're not yet authenticated.
-// function PrivateRoute({ children, ...rest }) {
-//   //   const signIn = { ...rest }.location;
-//   var isSigned = null;
-//   var loading = true;
-
-//   console.log("The Private Route function");
-//   fetch("/api/auth", {
-//     method: "POST"
-//   })
-//     .then(result => result.json())
-//     .then(result => {
-//       console.log("PrivateRoute result: ", result);
-//       console.log("PrivateRoute loading: ", loading);
-//       loading = false;
-
-//       //   this.setState({ isSigned: result, loading: false });
-//     });
-//   return <Route {...rest} render={() => children} />;
-
-//   //   if (loading) return "Loading...";
-// }
-
-// export default PrivateRoute;

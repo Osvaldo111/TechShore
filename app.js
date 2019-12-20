@@ -5,15 +5,25 @@ var app = express();
 var DBMethods = require("./server/DB/jobDesc.js");
 var sqlConnection = require("./server/DB/index.js");
 var session = require("express-session");
+
+// 3 Days of the cookie lifetime
+const COOKIE_LIFETIME = 1000 * 60 * 60 * 24 * 3;
+
 var MySQLStore = require("express-mysql-session")(session);
 var sessionStore = new MySQLStore(
-  {} /* session store options */,
+  {
+    // Whether or not to automatically check for and clear expired sessions:
+    clearExpired: true,
+    // How frequently expired sessions will be cleared; milliseconds:
+    checkExpirationInterval: 86400000 /* 1 Day */,
+    // The maximum age of a valid session; milliseconds:
+    expiration: COOKIE_LIFETIME
+  } /* session store options */,
   sqlConnection
 );
 var middleware = require("./server/DB/Middleware/authorization.js");
 
 const SESSION_NAME = "sid";
-const COOKIE_LIFETIME = 1000 * 60 * 60 * 2; //20 Minutes
 app.use(
   session({
     name: SESSION_NAME,

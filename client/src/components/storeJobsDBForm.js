@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import NavigationBarAdministrador from "./nav-bar-admin";
+import NavBarMobileAdministrador from "./nav-bar-mobile-admin";
 
 /**
  * @author Osvaldo Carrillo
@@ -22,7 +24,8 @@ export default class StorejobsDB extends Component {
   render() {
     return (
       <div>
-        <h1>Osvaldo</h1>
+        <NavigationBarAdministrador />
+        <NavBarMobileAdministrador />
       </div>
     );
   }
