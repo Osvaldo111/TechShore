@@ -34,8 +34,8 @@ module.exports = {
   storejobsDB(req, res, sqlConnection) {
     var link = "https://stackoverflow.com/jobs/feed?r=true";
     request(link, function(error, response, body) {
-      console.log("error:", error); // Print the error if one occurred
-      console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+      // console.log("error:", error); // Print the error if one occurred
+      // console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
       parseString(body, function(err, result) {
         var stackOverflowJobs = result.rss.channel[0].item;
         var jobsToStoreDB = [];
@@ -82,8 +82,6 @@ module.exports = {
             results
           ) {
             if (error) throw error;
-
-            // console.log("This is the results: ", results);
           });
           jobsToStoreDB.push(stackOverflowJobs[index].link);
         }
@@ -95,7 +93,6 @@ module.exports = {
 
   getCredentialsLogIn(req, res, sqlConnection, sessionStore) {
     var credentials = req.body.credentials;
-    // console.log("The session on Request: ", req);
 
     sqlConnection.query(
       "SELECT user FROM users WHERE user = ? AND user_password = ?",
@@ -104,11 +101,11 @@ module.exports = {
         if (error) throw error;
         if (results.length > 0) {
           req.session.user = results[0].user;
-          console.log(results[0].user);
+          // console.log(results[0].user);
           res.json(true);
         } else {
           res.json(false);
-          console.log("invalid Credentials");
+          // console.log("invalid Credentials");
         }
       }
     );

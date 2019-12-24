@@ -34,9 +34,6 @@ export default class LoginAdministrador extends React.Component {
   };
 
   handleSubmission = event => {
-    console.log("User: ", this.state.username);
-    console.log("Password: ", this.state.password);
-
     var userCredentials = {
       username: this.state.username,
       password: this.state.password
@@ -56,19 +53,16 @@ export default class LoginAdministrador extends React.Component {
     })
       .then(result => result.json())
       .then(result => {
-        console.log("The result: ", result);
         this.setState({ isSigned: result });
       });
   };
 
   getAuthorization = () => {
-    console.log("The authorization function");
     fetch("/api/auth", {
       method: "POST"
     })
       .then(result => result.json())
       .then(result => {
-        console.log("The result: ", result);
         this.setState({ isSigned: result, loading: false });
       });
   };
@@ -77,7 +71,7 @@ export default class LoginAdministrador extends React.Component {
       return "Loading...";
     }
     if (this.state.isSigned) {
-      return <Redirect to={"/"} />;
+      return <Redirect to={"/storeJobsDB"} />;
     }
     return (
       <div>
@@ -91,7 +85,7 @@ export default class LoginAdministrador extends React.Component {
             <label>User Name (Required)</label>
             <input
               type="text"
-              id="fname"
+              id="username"
               name="firstname"
               placeholder="Company.."
               onChange={this.getUsernameCredentials}
@@ -101,7 +95,7 @@ export default class LoginAdministrador extends React.Component {
             <label>Password (Required)</label>
             <input
               type="text"
-              id="fname"
+              id="password"
               name="firstname"
               placeholder="Postion"
               onChange={this.getPasswordCredentials}

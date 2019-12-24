@@ -5,7 +5,8 @@ var app = express();
 var DBMethods = require("./server/DB/jobDesc.js");
 var sqlConnection = require("./server/DB/index.js");
 var session = require("express-session");
-
+var AdminMethods = require("./server/DB/administrador.js");
+const secretKey = require("./secretKey.js");
 // 3 Days of the cookie lifetime
 const COOKIE_LIFETIME = 1000 * 60 * 60 * 24 * 3;
 
@@ -29,7 +30,7 @@ app.use(
     name: SESSION_NAME,
     resave: false,
     saveUninitialized: false,
-    secret: "session_cookie_secret",
+    secret: secretKey.secret_key,
     store: sessionStore,
     cookie: {
       maxAge: COOKIE_LIFETIME
@@ -52,26 +53,53 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); //for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "client/build")));
 
+/**
+ * Private Route serving job continer form
+ * @name post/api/getJobs
+ */
 app.post("/api/getJobs", function(req, res) {
-  // req.session.destroy();
-  // res.clearCookie(SESSION_NAME, { path: "/" });
+  console.log("The sessions = ", req.session);
   DBMethods.getJobs(req, res, sqlConnection);
 });
 
+/**
+ * Private Route serving job description form
+ * @name post/api/getJobDescription
+ */
 app.post("/api/getJobDescription", function(req, res) {
   DBMethods.getJobDesc(req, res, sqlConnection);
 });
 
+/**
+ * Private Route serving store jobs form
+ * @name post/api/storeJobs
+ */
 app.get("/api/storeJobs", function(req, res) {
   DBMethods.storejobsDB(req, res, sqlConnection);
 });
 
+/**
+ * Private Route serving job adminstrador login form
+ * @name post/api/login
+ */
 app.post("/api/login", middleware.authorization, function(req, res) {
   DBMethods.getCredentialsLogIn(req, res, sqlConnection, sessionStore);
 });
 
+/**
+ * Private Route to authenticate users.
+ * @name post/api/auth
+ */
 app.post("/api/auth", middleware.singleAuthorization);
 
+/**
+ * Private Route serving job continer
+ * @name post/api/getJobs
+ */
+
+app.post("/api/logoutAdmin", function(req, res) {
+  AdminMethods.logoutUser(req, res, SESSION_NAME);
+});
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

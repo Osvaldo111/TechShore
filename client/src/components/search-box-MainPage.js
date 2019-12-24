@@ -9,14 +9,6 @@ import SearchBox from "./search-box";
  * that are display on the main page of the site.
  */
 export default class SearchBoxContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    // this.someFunctionHere;
-  }
-
   getSearchBoxData = param => {
     this.props.getSearchBoxData(param);
   };

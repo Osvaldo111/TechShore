@@ -2,8 +2,6 @@ import React from "react";
 import NavigationBar from "./nav-bar";
 import "../style/job-description.css";
 import JobDescExtraInfo from "./job-desc-extraInfo";
-import NavBarMobile from "./nav-bar-mobile";
-import { Link } from "react-router-dom";
 
 /**
  * @author Osvaldo Carrillo
@@ -57,7 +55,6 @@ export default class JobDescription extends React.Component {
       <div>
         <div>
           <NavigationBar />
-          <NavBarMobile />
         </div>
         {jobDescription.map(item => {
           return (

@@ -4,7 +4,6 @@ import SearchBoxContainer from "./search-box-MainPage";
 import JobsContaier from "./job-container";
 import NavigationBar from "./nav-bar";
 import { Link } from "react-router-dom";
-import NavBarMobile from "./nav-bar-mobile";
 
 /**
  * @author Osvaldo Carrillo.
@@ -62,7 +61,6 @@ export default class MainContainer extends React.Component {
         </div>
         <div className="display-nav" style={{ display: this.state.display }}>
           <NavigationBar hideNavBar={this.state.hideBarInTopPage} />
-          <NavBarMobile hideBar={this.state.hideBarInTopPage} />
         </div>
         <div>
           <JobsContaier searchBoxData={this.state.searchBoxData} />

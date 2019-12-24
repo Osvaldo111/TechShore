@@ -1,0 +1,1 @@
+export const CHECK_ADMIN_LOGOUT = "ADMIN_LOGOUT";

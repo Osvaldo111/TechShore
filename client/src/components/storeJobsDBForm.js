@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import NavigationBarAdministrador from "./nav-bar-admin";
-import NavBarMobileAdministrador from "./nav-bar-mobile-admin";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { checkAdminLogout } from "../actions";
 
 /**
  * @author Osvaldo Carrillo
@@ -9,24 +11,55 @@ import NavBarMobileAdministrador from "./nav-bar-mobile-admin";
  * into the DB. This can be access after the administrador provide
  * their credentials.
  */
-export default class StorejobsDB extends Component {
+class StorejobsDB extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      linktoStackOFeed: ""
+      isLoading: null,
+      isSignedOut: false
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.location);
+  logoutUser = () => {
+    this.setState({ isLoading: true });
+    fetch("/api/logoutAdmin", {
+      method: "POST"
+    })
+      .then(result => result.json())
+      .then(result => {
+        this.setState({ isSignedOut: result });
+        this.setState({ isLoading: false });
+        // Reset the value to avoid unexpedted results
+        this.props.checkAdminLogout(false);
+      });
+  };
+
+  componentDidUpdate(prevProps) {
+    //Check when user logouts. Use the prevProps to
+    // avoid looping
+    if (this.props.isLogoutPress !== prevProps.isLogoutPress) {
+      this.logoutUser();
+    }
   }
 
   render() {
+    if (this.state.isLoading) return "Login out Wait...";
+
+    if (this.state.isSignedOut) {
+      return <Redirect to={"/login"} />;
+    }
     return (
       <div>
         <NavigationBarAdministrador />
-        <NavBarMobileAdministrador />
       </div>
     );
   }
 }
+function mapStateToProps(state) {
+  return { isLogoutPress: state.adminDashboard.isLogoutPress };
+}
+
+const mapDispatchToProps = {
+  checkAdminLogout
+};
+export default connect(mapStateToProps, mapDispatchToProps)(StorejobsDB);

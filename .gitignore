@@ -1,4 +1,3 @@
-#MySQL connection
 /server/config
 /database
-/app.js
+/secretKey.js

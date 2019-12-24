@@ -27,12 +27,12 @@ export default class PrivateRoute extends React.Component {
   }
 
   render() {
-    const { component: Component } = this.props;
+    // const { component: Component } = this.props;
     // return <Component {...this.props}/>;
     if (this.state.loading) return null;
 
     if (this.state.isSigned) return <Route {...this.props} />;
 
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 }

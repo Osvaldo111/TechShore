@@ -72,9 +72,6 @@
 }
 /* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  .job-desc-container {
-    margin: 0;
-  }
   .job-desc-generals {
     flex-direction: column;
     align-items: center;
@@ -82,6 +79,10 @@
 
   .job-desc-content {
     align-items: center;
+  }
+
+  .jobDesc-extraInfo {
+    width: 90%;
   }
 }
 
