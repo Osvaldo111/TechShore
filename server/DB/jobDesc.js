@@ -2,7 +2,7 @@ var request = require("request");
 var parseString = require("xml2js").parseString;
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-
+const DB_TABLE = "stackodaily";
 module.exports = {
   /*Send data of all the jobs selected*/
   getJobs(req, res, sqlConnection) {
@@ -32,62 +32,112 @@ module.exports = {
   },
 
   storejobsDB(req, res, sqlConnection) {
-    var link = "https://stackoverflow.com/jobs/feed?r=true";
+    var link = req.body.stackOverflowURL;
+
+    /**
+     * Request the data from the stackOverflow
+     * RSS URL.
+     */
     request(link, function(error, response, body) {
-      // console.log("error:", error); // Print the error if one occurred
-      // console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
-      parseString(body, function(err, result) {
-        var stackOverflowJobs = result.rss.channel[0].item;
-        var jobsToStoreDB = [];
+      if (error) {
+        console.log("error:", error); // Print the error if one occurred
+        console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+        var errors = {
+          status: false,
+          error: "Invalid URL"
+        };
+        res.json(errors);
+      } else {
+        /**
+         * DELETE the past data from the server
+         */
+        sqlConnection.query("DELETE FROM ??", DB_TABLE, function(
+          error,
+          results,
+          fields
+        ) {
+          if (error) console.log(error);
+          console.log("DELETE DB Completed.");
+        });
 
-        for (let index = 0; index < stackOverflowJobs.length; index++) {
-          // Remove all the entities and HTML tags from the de
-          const copyofDescrStackOv = new JSDOM(
-            stackOverflowJobs[index].description
-          );
-          stackOverflowJobs[
-            index
-          ].description = copyofDescrStackOv.window.document.querySelector(
-            "body"
-          ).textContent;
+        /**
+         * RESET the AUTO_INCEMENT to 1
+         */
+        sqlConnection.query(
+          "ALTER TABLE ?? AUTO_INCREMENT = 1",
+          DB_TABLE,
+          function(error, results, fields) {
+            if (error) console.log(error);
 
-          // Parse the Date according to the DB Format.
-          var mydate = new Date(stackOverflowJobs[index].pubDate);
-          var newDate =
-            mydate.getFullYear() +
-            "-" +
-            (mydate.getMonth() + 1) +
-            "-" +
-            mydate.getDate();
+            console.log("The AUTO_INCEMENT = 1, is completed.");
+          }
+        );
 
-          // Remove the extra text "()" and "(allows remote)"
-          var job_position = stackOverflowJobs[index].title
-            .toString()
-            .replace("()", "")
-            .replace("(allows remote)", "");
+        parseString(body, function(err, result) {
+          var stackOverflowJobs = result.rss.channel[0].item;
+          var jobsToStoreDB = [];
+          for (let index = 0; index < stackOverflowJobs.length; index++) {
+            // Remove all the entities and HTML tags from the data
+            const copyofDescrStackOv = new JSDOM(
+              stackOverflowJobs[index].description
+            );
+            stackOverflowJobs[
+              index
+            ].description = copyofDescrStackOv.window.document.querySelector(
+              "body"
+            ).textContent;
+            // Parse the Date according to the DB Format.
+            var mydate = new Date(stackOverflowJobs[index].pubDate);
+            var newDate =
+              mydate.getFullYear() +
+              "-" +
+              (mydate.getMonth() + 1) +
+              "-" +
+              mydate.getDate();
+            // Remove the extra text "()" and "(allows remote)"
+            var job_position = stackOverflowJobs[index].title
+              .toString()
+              .replace("()", "")
+              .replace("(allows remote)", "");
+            var jobs = {
+              id: 0,
+              job_position: job_position,
+              company_name:
+                stackOverflowJobs[index]["a10:author"][0]["a10:name"],
+              date_posted: newDate,
+              job_hours: "Full-Time",
+              job_location: "Remote",
+              job_description: stackOverflowJobs[index].description,
+              job_link: stackOverflowJobs[index].link
+            };
 
-          var jobs = {
-            id: 0,
-            job_position: job_position,
-            company_name: stackOverflowJobs[index]["a10:author"][0]["a10:name"],
-            date_posted: newDate,
-            job_hours: "Full-Time",
-            job_location: "Remote",
-            job_description: stackOverflowJobs[index].description,
-            job_link: stackOverflowJobs[index].link
+            /**
+             * Insert the data into the database
+             */
+            sqlConnection.query(
+              "INSERT INTO ?? SET ?",
+              [DB_TABLE, jobs],
+              function(error, results) {
+                if (error) {
+                  console.log(error);
+                }
+              }
+            );
+
+            /**
+             * INSERT the data into the array for the next row.
+             */
+            jobsToStoreDB.push(stackOverflowJobs[index].link);
+          }
+          /**
+           * Variable to be sent
+           */
+          var errors = {
+            status: true
           };
-
-          sqlConnection.query("INSERT INTO stackODaily SET ?", jobs, function(
-            error,
-            results
-          ) {
-            if (error) throw error;
-          });
-          jobsToStoreDB.push(stackOverflowJobs[index].link);
-        }
-
-        res.json(jobsToStoreDB /*[0].description*/);
-      });
+          res.json(errors);
+        });
+      }
     });
   },
 

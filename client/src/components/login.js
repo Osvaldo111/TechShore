@@ -77,7 +77,7 @@ export default class LoginAdministrador extends React.Component {
       <div>
         <div className="post-job-form-container">
           <form
-            action="/action_page.php"
+            action=""
             className="post-job-form"
             onSubmit={this.handleSubmission}
           >

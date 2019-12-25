@@ -3,6 +3,7 @@ import NavigationBarAdministrador from "./nav-bar-admin";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { checkAdminLogout } from "../actions";
+import InsertJobsForm from "./insertJobs-form";
 
 /**
  * @author Osvaldo Carrillo
@@ -51,6 +52,7 @@ class StorejobsDB extends Component {
     return (
       <div>
         <NavigationBarAdministrador />
+        <InsertJobsForm />
       </div>
     );
   }

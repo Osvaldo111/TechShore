@@ -74,7 +74,7 @@ app.post("/api/getJobDescription", function(req, res) {
  * Private Route serving store jobs form
  * @name post/api/storeJobs
  */
-app.get("/api/storeJobs", function(req, res) {
+app.post("/api/storeJobs", function(req, res) {
   DBMethods.storejobsDB(req, res, sqlConnection);
 });
 
