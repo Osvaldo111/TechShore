@@ -9,13 +9,17 @@ import SearchBox from "./search-box";
  * that are display on the main page of the site.
  */
 export default class SearchBoxContainer extends React.Component {
-  getSearchBoxData = param => {
-    this.props.getSearchBoxData(param);
-  };
+  /**
+   * Avoid unnnecesary re-render because of the
+   * parent scrolling funcitons.
+   */
+  shouldComponentUpdate() {
+    return false;
+  }
   render() {
     return (
       <div className="search-container">
-        <SearchBox getDataFunction={this.getSearchBoxData} />
+        <SearchBox />
         <div className="filter-country">
           <h1>Filter By Country</h1>
           <div className="filter-country-container">

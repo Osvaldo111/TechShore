@@ -1,13 +1,14 @@
 import React from "react";
 import "../style/search-box.css";
-
+import { connect } from "react-redux";
+import { getSearchBoxData } from "../actions";
 /**
  * @author Osvaldo Carrillo
  * Date: 11/21/19.
  * This class contains the component "Search Box".
  */
 
-export default class SearchBox extends React.Component {
+class SearchBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,8 +21,8 @@ export default class SearchBox extends React.Component {
   };
 
   handleSubmit = event => {
-    // Function to pass value to the Parent
-    this.props.getDataFunction(this.state.jobEntered);
+    // Store the function in the reducer
+    this.props.getSearchBoxData(this.state.jobEntered);
     event.preventDefault();
   };
 
@@ -46,3 +47,8 @@ export default class SearchBox extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  getSearchBoxData
+};
+export default connect(null, mapDispatchToProps)(SearchBox);

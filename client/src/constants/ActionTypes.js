@@ -1,1 +1,2 @@
 export const CHECK_ADMIN_LOGOUT = "ADMIN_LOGOUT";
+export const GET_SEARCH_BOX_DATA = "SEARCH_BOX_DATA";

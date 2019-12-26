@@ -17,8 +17,7 @@ export default class MainContainer extends React.Component {
     super(props);
     this.state = {
       display: "inline",
-      hideBarInTopPage: "none",
-      searchBoxData: ""
+      hideBarInTopPage: "none"
     };
   }
 
@@ -30,15 +29,19 @@ export default class MainContainer extends React.Component {
     window.removeEventListener("scroll", this.displayNavBar);
   }
 
-  getSearchBoxData = param => {
-    this.setState({ searchBoxData: param });
-    console.log("Main Page Parent", param);
-  };
+  /**
+   * This function is designed to avoid unnnecesary
+   * re-render the navbar on the Parent Component.
+   * @param {Object} newProps
+   * @param {Object} newState
+   */
+  shouldComponentUpdate(newProps, newState) {
+    return this.state.display !== newState.display;
+  }
 
   displayNavBar = () => {
     var yAxisWindow = window.scrollY;
     var topMainImage = Math.round(document.documentElement.clientHeight * 0.55);
-
     if (yAxisWindow >= topMainImage) {
       this.setState({
         display: "flex",
@@ -51,19 +54,20 @@ export default class MainContainer extends React.Component {
     }
   };
   render() {
+    console.log("RENDER");
     return (
       <div className="container-mainPage">
         <div className="top-mainPage">
           <Link to="/postJob">
             <button className="button-main-page">Post Job</button>
           </Link>
-          <SearchBoxContainer getSearchBoxData={this.getSearchBoxData} />
+          <SearchBoxContainer />
         </div>
         <div className="display-nav" style={{ display: this.state.display }}>
           <NavigationBar hideNavBar={this.state.hideBarInTopPage} />
         </div>
         <div>
-          <JobsContaier searchBoxData={this.state.searchBoxData} />
+          <JobsContaier />
         </div>
       </div>
     );

@@ -58,7 +58,6 @@ app.use(express.static(path.join(__dirname, "client/build")));
  * @name post/api/getJobs
  */
 app.post("/api/getJobs", function(req, res) {
-  console.log("The sessions = ", req.session);
   DBMethods.getJobs(req, res, sqlConnection);
 });
 

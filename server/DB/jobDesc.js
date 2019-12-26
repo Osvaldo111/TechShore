@@ -4,12 +4,28 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const DB_TABLE = "stackodaily";
 module.exports = {
-  /*Send data of all the jobs selected*/
+  /**
+   * This function sends the data retrieve from
+   * the Database to the client
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Object} sqlConnection
+   */
   getJobs(req, res, sqlConnection) {
+    var offsetIndex = req.body.offsetIndex;
+    var limitjobs = req.body.numJobs;
+    console.log(
+      "offset: ",
+      req.body.offsetIndex,
+      " Num Jobs: ",
+      req.body.numJobs,
+      "The Keyword",
+      req.body.keyword
+    );
     var searchJobKeyWord = "%" + req.body.keyword + "%";
     sqlConnection.query(
-      "SELECT * FROM `stackODaily` WHERE job_position LIKE ?",
-      [searchJobKeyWord],
+      "SELECT * FROM `stackODaily` WHERE job_position LIKE ? LIMIT ? OFFSET ?",
+      [searchJobKeyWord, limitjobs, offsetIndex],
       function(error, results) {
         if (error) throw error;
         res.json(results);

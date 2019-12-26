@@ -60,7 +60,7 @@ export default class NavigationBar extends React.Component {
             </Link>
           </div>
           <div className="navbar-mobile-btn-wrapper">
-            <Link to="/">
+            <Link to="/login">
               <p>Home</p>
             </Link>
           </div>

@@ -11,6 +11,20 @@
   text-decoration: none;
   color: black;
 }
+.JobContainer-loadButon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.JobContainer-loadButton {
+  font-family: inherit;
+  background-color: #0f52ba;
+  border: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 50px;
+  padding: 5px 30px;
+}
 /* Ultra small devices Example: Custom, iPhone Retina */
 @media (min-width: 320px) {
   /* .search-container {
