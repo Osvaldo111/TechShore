@@ -54,7 +54,6 @@ export default class MainContainer extends React.Component {
     }
   };
   render() {
-    console.log("RENDER");
     return (
       <div className="container-mainPage">
         <div className="top-mainPage">

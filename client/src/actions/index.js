@@ -5,7 +5,12 @@ export const checkAdminLogout = isLogoutPress => ({
   isLogoutPress
 });
 
-export const getSearchBoxData = searchBoxData => ({
+export const setSearchBoxData = searchBoxData => ({
   type: types.GET_SEARCH_BOX_DATA,
   searchBoxData
+});
+
+export const setCheckBoxValue = checkBoxValueAllJobs => ({
+  type: types.CHECK_FORM_FILTER,
+  checkBoxValueAllJobs
 });

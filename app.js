@@ -7,6 +7,7 @@ var sqlConnection = require("./server/DB/index.js");
 var session = require("express-session");
 var AdminMethods = require("./server/DB/administrador.js");
 const secretKey = require("./secretKey.js");
+var nodemailer = require("nodemailer");
 // 3 Days of the cookie lifetime
 const COOKIE_LIFETIME = 1000 * 60 * 60 * 24 * 3;
 

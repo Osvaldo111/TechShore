@@ -1,14 +1,15 @@
 import React from "react";
 import "../style/search-box-MainPage.css";
 import SearchBox from "./search-box";
-
+import { connect } from "react-redux";
+import { setCheckBoxValue } from "../actions";
 /**
  * @author Osvaldo Carrillo.
  * Date: 11/21/2019
  * This class contains the "Search Box" and "Filter by County" sections
  * that are display on the main page of the site.
  */
-export default class SearchBoxContainer extends React.Component {
+class SearchBoxContainer extends React.Component {
   /**
    * Avoid unnnecesary re-render because of the
    * parent scrolling funcitons.
@@ -16,28 +17,28 @@ export default class SearchBoxContainer extends React.Component {
   shouldComponentUpdate() {
     return false;
   }
+
+  // Use the reducer to set the value of the checkbox
+  handleChange = event => {
+    this.props.setCheckBoxValue(event.target.checked);
+  };
+
   render() {
     return (
       <div className="search-container">
         <SearchBox />
         <div className="filter-country">
-          <h1>Filter By Country</h1>
+          <h1>Filter</h1>
           <div className="filter-country-container">
             <div>
-              <input type="checkbox" id="checkBoxUS" name="US" value="US" />
-              <label htmlFor="US">United States</label>
-            </div>
-            <div>
-              <input type="checkbox" id="checkBoxCND" name="CND" value="CND" />
-              <label htmlFor="CND">Canada</label>
-            </div>
-            <div>
-              <input type="checkbox" id="checkBoxUK" name="UK" value="UK" />
-              <label htmlFor="UK">United Kingdom</label>
-            </div>
-            <div>
-              <input type="checkbox" id="checkBoxWW" name="WW" value="WW" />
-              <label htmlFor="WW">Worldwide</label>
+              <input
+                type="checkbox"
+                id="checkBoxAllJobs"
+                name="AllJobs"
+                value="All"
+                onChange={this.handleChange}
+              />
+              <label htmlFor="US">All Jobs</label>
             </div>
           </div>
         </div>
@@ -45,3 +46,9 @@ export default class SearchBoxContainer extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  setCheckBoxValue
+};
+
+export default connect(null, mapDispatchToProps)(SearchBoxContainer);

@@ -52,7 +52,7 @@ export default class InsertJobsForm extends React.Component {
     /**
      * OPTIONAL Validation
      * This is in case you don't want to
-     * use "required"
+     * use "required" in the HTML tag
      */
     //Reset the state "errors" and "isCompleted"
     this.setState({ errors: [], isCompleted: false });

@@ -15,7 +15,11 @@ export default class PostJobForm extends React.Component {
         <NavigationBar />
 
         <div className="post-job-form-container">
-          <form action="" className="post-job-form">
+          <form
+            action="mailto:osvaldofabricio11@gmail.com"
+            method="GET"
+            className="post-job-form"
+          >
             <h1 style={{ textAlign: "center" }}>Post a Job</h1>
             <label>Company Name (Required)</label>
             <input

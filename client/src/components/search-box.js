@@ -1,7 +1,7 @@
 import React from "react";
 import "../style/search-box.css";
 import { connect } from "react-redux";
-import { getSearchBoxData } from "../actions";
+import { setSearchBoxData } from "../actions";
 /**
  * @author Osvaldo Carrillo
  * Date: 11/21/19.
@@ -22,7 +22,7 @@ class SearchBox extends React.Component {
 
   handleSubmit = event => {
     // Store the function in the reducer
-    this.props.getSearchBoxData(this.state.jobEntered);
+    this.props.setSearchBoxData(this.state.jobEntered);
     event.preventDefault();
   };
 
@@ -49,6 +49,6 @@ class SearchBox extends React.Component {
 }
 
 const mapDispatchToProps = {
-  getSearchBoxData
+  setSearchBoxData
 };
 export default connect(null, mapDispatchToProps)(SearchBox);

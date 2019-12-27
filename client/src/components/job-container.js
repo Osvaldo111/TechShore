@@ -3,7 +3,7 @@ import JobCard from "./job-card";
 import "../style/card-container.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getSearchBoxData } from "../actions";
+import { setSearchBoxData } from "../actions";
 
 /**
  * @author Osvaldo Carrillo
@@ -11,36 +11,60 @@ import { getSearchBoxData } from "../actions";
  * This class is a component which is responsible of containing all
  * the job cards and display them in the main page.
  */
-const DISPLAY_NUM_JOBS = 5;
+const DISPLAY_NUM_JOBS = 12;
 class JobsContaier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
       offsetIndex: 0,
-      disabledLoadBtn: false
+      disabledLoadBtn: false,
+      loading: true
     };
   }
 
   componentDidMount() {
-    alert("Did Mount");
-    // Get the inital jobs by providing
-    // and empty string
-    this.getJobDescription("");
+    // Initialize with the current value of the
+    // "Search Box Data"
+    this.getJobDescription(this.props.searchBoxData);
   }
 
   /**
-   * This function c
+   * This function is designed to update the job list
+   * when the "SearchBoxData" have been changed. Or onw of the
+   * parameters of the filter is selected.
    * @param {Object} previousProps
    * @param {Object} previouState
    */
   componentDidUpdate(previousProps, previouState) {
+    // Check if the user has entered a new value on the search bar.
     if (previousProps.searchBoxData !== this.props.searchBoxData) {
-      alert(this.props.searchBoxData);
+      this.setState(
+        {
+          list: [],
+          offsetIndex: 0
+        },
+        () => {
+          this.getJobDescription(this.props.searchBoxData);
+        }
+      );
+    }
 
-      this.setState({ list: [], offsetIndex: 0 }, () => {
-        this.getJobDescription(this.props.searchBoxData);
-      });
+    /**
+     *
+     * Check if the user has selected the checkbox "All Jobs"
+     * Use the "previousProps" to avoid looping in the function.
+     * And compare the keyword to avoid unnecesary called to the
+     * server when the user is in the main page.
+     */
+    if (
+      previousProps.checkBoxValueAllJobs !== this.props.checkBoxValueAllJobs &&
+      this.props.checkBoxValueAllJobs &&
+      this.props.searchBoxData !== ""
+    ) {
+      // The function "getJobDescription" is called
+      // because the props are changed.
+      this.props.setSearchBoxData("");
     }
   }
 
@@ -58,7 +82,6 @@ class JobsContaier extends React.Component {
     })
       .then(result => result.json())
       .then(listDescription => {
-        console.log("THE KEYWORD: ", this.props.searchBoxData);
         var jobDescription = [];
         // Reset the button
         this.setState({ disabledLoadBtn: false });
@@ -66,32 +89,30 @@ class JobsContaier extends React.Component {
           for (let index = 0; index < listDescription.length; index++) {
             jobDescription.push(listDescription[index]);
           }
-          console.log("Old index offset: ", this.state.offsetIndex);
           // Update the Offsetindex for the DB
-          var newOffsetindex = this.state.offsetIndex + 5;
-          // this.setState({ list: jobDescription, offsetIndex: newOffsetindex });
-
+          var newOffsetindex = this.state.offsetIndex + DISPLAY_NUM_JOBS;
           // Set the new state
           this.setState(prevState => ({
             list: [...prevState.list, ...jobDescription],
             offsetIndex: newOffsetindex
           }));
-
-          console.log("New Offset Index: ", newOffsetindex);
-          console.log("New list: ", this.state.list);
         } else {
-          // Reset the keyword.
-          // this.props.getSearchBoxData("");
           // Disabled button, change message and
           // color of the button.
           this.setState({ disabledLoadBtn: true });
         }
+
+        return true;
+      })
+      .then(result => {
+        this.setState({ loading: false });
       });
   };
 
   render() {
     const { list } = this.state;
-    console.log("RENDER************");
+
+    if (this.state.loading) return "Loading, wait.....";
     return (
       <div className="card-space">
         {list.map(item => {
@@ -132,11 +153,14 @@ class JobsContaier extends React.Component {
     );
   }
 }
+
 function mapStateToProps(state) {
-  console.log(state.searchBox.searchBoxData);
-  return { searchBoxData: state.searchBox.searchBoxData };
+  return {
+    searchBoxData: state.searchBox.searchBoxData,
+    checkBoxValueAllJobs: state.checkBoxFilter.checkBoxValueAllJobs
+  };
 }
 const mapDispatchToProps = {
-  getSearchBoxData
+  setSearchBoxData
 };
 export default connect(mapStateToProps, mapDispatchToProps)(JobsContaier);
