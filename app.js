@@ -59,6 +59,28 @@ app.use(express.static(path.join(__dirname, "client/build")));
  * @name post/api/getJobs
  */
 app.post("/api/getJobs", function(req, res) {
+  // var transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   auth: {
+  //     user: "",
+  //     pass: ""
+  //   }
+  // });
+
+  // var mailOptions = {
+  //   from: "",
+  //   to: "",
+  //   subject: "Sending Email using Node.js",
+  //   text: "That was easy!"
+  // };
+
+  // transporter.sendMail(mailOptions, function(error, info) {
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log("Email sent: " + info.response);
+  //   }
+  // });
   DBMethods.getJobs(req, res, sqlConnection);
 });
 
